@@ -29,7 +29,7 @@
  */
  
 /**
- * @file    FRDMKL02Z_Project_UART.c
+ * @file    MKL02Z32xxx4_Project.c
  * @brief   Application entry point.
  */
 #include <stdio.h>
@@ -39,34 +39,11 @@
 #include "clock_config.h"
 #include "MKL02Z4.h"
 #include "fsl_debug_console.h"
-#include "fsl_gpio.h"
-
-#define BOARD_LED_GPIO BOARD_LED_RED_GPIO
-#define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
-
 
 #include "sdk_hal_uart0.h"
 
-void delay(void)
-{
-    volatile uint32_t i = 0;
-    for (i = 0; i < 800000; ++i)
-    {
-        __asm("NOP"); /* delay */
-    }
-}
 
-/* TODO: insert other include files here. */
-
-/* TODO: insert other definitions and declarations here. */
-/*
- * @brief   Application entry point.
- */
 int main(void) {
-
-	gpio_pin_config_t led_config = {
-	        kGPIO_DigitalOutput, 0,
-	};
 
   	/* Init board hardware. */
     BOARD_InitBootPins();
@@ -77,27 +54,22 @@ int main(void) {
     BOARD_InitDebugConsole();
 #endif
 
-    GPIO_PinInit(BOARD_LED_GPIO, BOARD_LED_GPIO_PIN, &led_config);
-
     (void)uart0Inicializar(115200);
 
-    while(1) {
-    	status_t status;
-    	uint8_t nuevo_byte;
 
-    	if(uart0NuevosDatosEnBuffer()>0){
-    		status=uart0LeerByteDesdeBufferCircular(&nuevo_byte);
-    		if(status==kStatus_Success){
-    			printf("dato:%c\r\n",nuevo_byte);
-    			 if(nuevo_byte==R){
-    				 delay();
-    				  GPIO_PortToggle(BOARD_LED_GPIO, 1u << BOARD_LED_GPIO_PIN);
-    			 }
+while(1) {
+        	status_t status;
+        	uint8_t nuevo_byte;
 
-    		}else{
-    			printf("error\r\n");
-    		}
-    	}
-    }
+      if(uart0NuevosDatosEnBuffer()>0){
+        	status=uart0LeerByteDesdeBufferCircular(&nuevo_byte);
+        	if(status==kStatus_Success){
+        		printf("dato:%c\r\n",nuevo_byte);
+        	}else{
+        		printf("error\r\n");
+        	}
+         }
+      }
     return 0 ;
 }
+

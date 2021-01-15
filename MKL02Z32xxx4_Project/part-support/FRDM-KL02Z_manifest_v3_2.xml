@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:manifest xmlns:ns2="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" format_version="3.2" api_version="2.0.0" configuration="95aa7b98e9c6cfde6abaae50f6b5006e" id="SDK_2.x_FRDM-KL02Z" name="SDK version 2.3.1 package for FRDM-KL02Z board" brief="This is SDK version 2.3.1 manifest file. It describes the content of the SDK version 2.3.1 package for FRDM-KL02Z board and additional settings for tools that support SDK version 2.3.1">
+    <defines>
+        <define name="CPU_$|package|" value=""/>
+        <define name="CPU_$|package|_$|core|" value=""/>
+    </defines>
+    <ksdk id="KSDK231" name="KSDK231" version="2.3.1"/>
+    <compilers>
+        <compiler type="gcc" id="compiler_gcc" name="gcc"/>
+    </compilers>
+    <toolchainSettings>
+        <toolchainSetting id="com.nxp.mcuxpresso" name="mcuxpresso" full_name="MCUXpresso IDE" version="1.0.0" toolchain="mcuxpresso" compiler="compiler_gcc">
+            <option id="gnu.cpp.compiler.option.optimization.flags" type="string" user_name="">
+                <value>-fno-common</value>
+            </option>
+            <option id="gnu.c.compiler.option.optimization.flags" type="string" user_name="">
+                <value>-fno-common</value>
+            </option>
+            <option id="gnu.cpp.link.option.nostdlibs" type="boolean" user_name="">
+                <value>true</value>
+            </option>
+            <option id="gnu.cpp.link.option.other" type="stringList" user_name="">
+                <value>-Map="${BuildArtifactFileBaseName}.map"</value>
+                <value>--gc-sections</value>
+                <value>-print-memory-usage</value>
+            </option>
+            <option id="com.crt.advproject.link.cpp.flashconfigenable" type="boolean" user_name="">
+                <value>true</value>
+            </option>
+            <option id="com.crt.advproject.link.flashconfigenable" type="boolean" user_name="">
+                <value>true</value>
+            </option>
+            <option id="gnu.c.link.option.nostdlibs" type="boolean" user_name="">
+                <value>true</value>
+            </option>
+            <option id="gnu.c.link.option.other" type="stringList" user_name="">
+                <value>-Map="${BuildArtifactFileBaseName}.map"</value>
+                <value>--gc-sections</value>
+                <value>-print-memory-usage</value>
+            </option>
+        </toolchainSetting>
+    </toolchainSettings>
+    <toolchains>
+        <toolchain type="mcuxpresso" vendor="NXP Semiconductors" vendor_url="http://www.nxp.com" id="mcuxpresso" name="MCUXpresso_IDE" full_name="MCUXpresso IDE" version="10.1.0" compiler="compiler_gcc">
+            <debug>
+                <debug_configuration probe="LinkServer" id="com.crt.advproject.config.exe.debug" name="Debug Configuration">
+                    <scripts>
+                        <script type="init" silent="false" emulators="${gdb.stub} -mi -info-emu">
+                            <script>
+set remotetimeout 60000
+##target_extended_remote##
+set mem inaccessible-by-default ${mem.access}
+mon ondisconnect ${ondisconnect}
+set arm force-mode thumb
+${load}
+        </script>
+                        </script>
+                        <script type="run" silent="false" emulators="${gdb.stub} -mi -info-emu">
+                            <script>
+${run}
+        </script>
+                        </script>
+                    </scripts>
+                    <params>
+                        <params value="false" id="vector.catch.debug.mcuxpresso" name="vector.catch"/>
+                        <params value="Disable" id="internal.cache.debug.mcuxpresso" name="internal.cache"/>
+                    </params>
+                </debug_configuration>
+                <debug_configuration probe="LinkServer" id="com.crt.advproject.config.exe.release" name="Release Configuration">
+                    <scripts>
+                        <script type="init" silent="false" emulators="${gdb.stub} -mi -info-emu">
+                            <script>
+set remotetimeout 60000
+##target_extended_remote##
+set mem inaccessible-by-default ${mem.access}
+mon ondisconnect ${ondisconnect}
+set arm force-mode thumb
+${load}
+        </script>
+                        </script>
+                        <script type="run" silent="false" emulators="${gdb.stub} -mi -info-emu">
+                            <script>
+${run}
+        </script>
+                        </script>
+                    </scripts>
+                    <params>
+                        <params value="false" id="vector.catch.release.mcuxpresso" name="vector.catch"/>
+                        <params value="Disable" id="internal.cache.release.mcuxpresso" name="internal.cache"/>
+                    </params>
+                </debug_configuration>
+            </debug>
+        </toolchain>
+    </toolchains>
+    <boards>
+        <board package="MKL02Z32VFM4" id="frdmkl02z" name="FRDM-KL02Z" href="http://www.nxp.com/frdm-kl02z" version="1.0.0">
+            <description>
+FRDM-KL02Z: Freedom Development Platform for the Kinetis KL02 Family
+        </description>
+            <image path="docs/images" type="image">
+                <files mask="FRDM-KL02Z.gif"/>
+            </image>
+            <metadataSet>
+                <metadata key="html">
+                    <specific>
+                        <content xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+The FRDM-KL02Z is an ultra-low-cost development platform enabled by the Kinetis® L series KL02 family built on the ARM® Cortex®-M0+ processor.
+
+Features include the open standard embedded serial and debug adapter (OpenSDA), providing easy access to MCU I/O, battery-ready, low-power operation, a standard-based form factor with expansion board options and a built-in debug interface for flash programming and run-control. The FRDM-KL02Z is supported by a range of NXP® and third-party development software.
+
+This hardware can be purchased through NXP distribution partners.
+        </content>
+                    </specific>
+                </metadata>
+            </metadataSet>
+            <total_memory flash_size_kb="0" ram_size_kb="0"/>
+        </board>
+    </boards>
+    <devices>
+        <device family="KL0x" platform="Kinetis" id="MKL02Z32xxx4" name="MKL02Z4" full_name="MKL02Z32xxx4" href="http://www.nxp.com/kinetis" version="1.0.0">
+            <description>
+KL02: Kinetis® KL02-48 MHz, Dual I2C, Small packages, Entry-Level Ultra-Low Power Microcontrollers (MCUs) based on ARM® Cortex®-M0+ Core
+        </description>
+            <image path="docs/images" type="image">
+                <files mask="device.jpg"/>
+            </image>
+            <metadataSet>
+                <metadata key="html">
+                    <specific>
+                        <content xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+As an entry point to the Kinetis® L series, the KL02 chip-scale package (CSP) MCU offers one of the world's smallest ARM Powered® microcontrollers for low-power devices, remote sensing nodes, portable consumer devices, and ingestible healthcare sensing.
+&lt;ul&gt;
+&lt;li&gt;Consumes 25 percent less PCB area, while delivering 60 percent more GPIO than the nearest competitor&lt;/li&gt;
+&lt;li&gt;Allows designers to dramatically reduce their board size without compromising performance, feature integration, or power consumption of end products&lt;/li&gt;
+&lt;li&gt;Promotes multiple, flexible, low-power modes&lt;/li&gt;
+&lt;li&gt;Supported by a cost effective development platform for quick application prototyping and demonstration&lt;/li&gt;
+&lt;/ul&gt;
+        </content>
+                    </specific>
+                </metadata>
+                <metadata key="vendor" value="NXP"/>
+                <metadata key="vendor.device.type" value="Kinetis"/>
+                <metadata key="vendor.device.family" value="KL0x"/>
+            </metadataSet>
+            <core fpu="false" type="cm0plus" id="core0_MKL02Z32xxx4" name="core0"/>
+            <memory>
+                <memoryBlock addr="00000000" size="00008000" type="Flash" access="RO" id="PROGRAM_FLASH_MKL02Z32xxx4" name="PROGRAM_FLASH"/>
+                <memoryBlock addr="1FFFFC00" size="00001000" type="RAM" access="RW" id="SRAM_MKL02Z32xxx4" name="SRAM"/>
+            </memory>
+            <total_memory flash_size_kb="32" ram_size_kb="4"/>
+            <package id="MKL02Z32VFG4" name="MKL02Z32VFG4"/>
+            <package id="MKL02Z32VFK4" name="MKL02Z32VFK4"/>
+            <package id="MKL02Z32CAF4" name="MKL02Z32CAF4"/>
+            <package id="MKL02Z32VFM4" name="MKL02Z32VFM4"/>
+            <evaluation_boards>
+                <evaluation_board name="frdmkl02z"/>
+            </evaluation_boards>
+            <debug_configurations>
+                <debug_configuration id_refs="com.crt.advproject.config.exe.debug com.crt.advproject.config.exe.release">
+                    <params>
+                        <params value="SWD" id="internal.wiretype.release.MKL02Z32xxx4" name="internal.wiretype"/>
+                        <params value="false" id="internal.has_swo.release.MKL02Z32xxx4" name="internal.has_swo"/>
+                        <params value="kinetisconnect.scp" id="internal.connect.script.debug.mcuxpresso.MKL02Z32xxx4" name="internal.connect.script"/>
+                    </params>
+                    <drivers>
+                        <driver id_refs="PROGRAM_FLASH_MKL02Z32xxx4">
+                            <driverBinary path="devices/MKL02Z4/mcuxpresso" type="binary">
+<files mask="FTFA_1K_Tiny.cfx"/>
+                            </driverBinary>
+                        </driver>
+                    </drivers>
+                </debug_configuration>
+            </debug_configurations>
+            <linkerSettings nature="c_nature">
+                <linker property="start_symbol" value="ResetISR"/>
+                <linker property="text_align" value="4"/>
+                <linker property="data_align" value="4"/>
+                <linker property="bss_align" value="4"/>
+                <linker property="flash_security_address" value="0x400"/>
+                <linker property="mtb_supported" value="true"/>
+            </linkerSettings>
+            <linkerSettings nature="cpp_nature">
+                <linker property="start_symbol" value="ResetISR"/>
+                <linker property="text_align" value="4"/>
+                <linker property="data_align" value="4"/>
+                <linker property="bss_align" value="4"/>
+                <linker property="flash_security_address" value="0x400"/>
+                <linker property="mtb_supported" value="true"/>
+            </linkerSettings>
+        </device>
+    </devices>
+    <components>
+        <component user_visible="true" type="debugger" devices="MKL02Z32xxx4" id="platform.devices.MKL02Z4_debugger.MKL02Z4" name="MKL02Z4_debugger" version="1.0.0">
+            <source path="devices/MKL02Z4" target_path="TARGET_PATH" type="xml">
+                <files mask="MKL02Z4.xml"/>
+            </source>
+        </component>
+        <component user_visible="true" type="debugger" devices="MKL02Z32xxx4" id="platform.devices.MKL02Z4_flash.MKL02Z4" name="MKL02Z4_flash" version="1.0.0">
+            <source path="devices/MKL02Z4/mcuxpresso" target_path="TARGET_PATH" type="binary" toolchain="mcuxpresso">
+                <files mask="FTFA_1K_Tiny.cfx"/>
+            </source>
+        </component>
+    </components>
+</ns2:manifest>
