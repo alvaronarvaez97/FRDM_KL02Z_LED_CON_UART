@@ -1,9 +1,12 @@
 /*
- * Copyright 2016-2021 NXP
+ * The Clear BSD License
+ * Copyright (c) 2015, Freescale Semiconductor, Inc.
+ * Copyright 2016-2017 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
+ * are permitted (subject to the limitations in the disclaimer below) provided
+ * that the following conditions are met:
  *
  * o Redistributions of source code must retain the above copyright notice, this list
  *   of conditions and the following disclaimer.
@@ -12,10 +15,11 @@
  *   list of conditions and the following disclaimer in the documentation and/or
  *   other materials provided with the distribution.
  *
- * o Neither the name of NXP Semiconductor, Inc. nor the names of its
+ * o Neither the name of the copyright holder nor the names of its
  *   contributors may be used to endorse or promote products derived from this
  *   software without specific prior written permission.
  *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE.
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -27,26 +31,34 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
-/**
- * @file    FRDMKL02Z_Project_UART.c
- * @brief   Application entry point.
- */
-#include <studio.h>
+
 #include "board.h"
-#include "peripherals.h"
-#include "pin_mux.h"
-#include "clock_config.h"
-#include "MKL02Z4.h"
 #include "fsl_debug_console.h"
 #include "fsl_gpio.h"
 
+#include "clock_config.h"
+#include "pin_mux.h"
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
 #define BOARD_LED_GPIO BOARD_LED_RED_GPIO
 #define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
 
+/*******************************************************************************
+ * Prototypes
+ ******************************************************************************/
+/*!
+ * @brief delay a while.
+ */
+void delay(void);
 
-#include "sdk_hal_uart0.h"
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
 
+/*******************************************************************************
+ * Code
+ ******************************************************************************/
 void delay(void)
 {
     volatile uint32_t i = 0;
@@ -56,48 +68,31 @@ void delay(void)
     }
 }
 
-/* TODO: insert other include files here. */
-
-/* TODO: insert other definitions and declarations here. */
-/*
- * @brief   Application entry point.
+/*!
+ * @brief Main function
  */
-int main(void) {
+int main(void)
+{
+    /* Define the init structure for the output LED pin*/
+    gpio_pin_config_t led_config = {
+        kGPIO_DigitalOutput, 0,
+    };
 
-	gpio_pin_config_t led_config = {
-	        kGPIO_DigitalOutput, 0,
-	};
-
-  	/* Init board hardware. */
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitBootPeripherals();
-#ifndef BOARD_INIT_DEBUG_CONSOLE_PERIPHERAL
-    /* Init FSL debug console. */
+    /* Board pin, clock, debug console init */
+    BOARD_InitPins();
+    BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
-#endif
 
+    /* Print a note to terminal. */
+    PRINTF("\r\n GPIO Driver example\r\n");
+    PRINTF("\r\n The LED is blinking.\r\n");
+
+    /* Init output LED GPIO. */
     GPIO_PinInit(BOARD_LED_GPIO, BOARD_LED_GPIO_PIN, &led_config);
 
-    (void)uart0Inicializar(115200);
-
-    while(1) {
-    	status_t status;
-    	uint8_t nuevo_byte;
-
-    	if(uart0NuevosDatosEnBuffer()>0){
-    		status=uart0LeerByteDesdeBufferCircular(&nuevo_byte);
-    		if(status==kStatus_Success){
-    			printf("dato:%c\r\n",nuevo_byte);
-    			 if(nuevo_byte==R){
-    				 delay();
-    				  GPIO_PortToggle(BOARD_LED_GPIO, 1u << BOARD_LED_GPIO_PIN);
-    			 }
-
-    		}else{
-    			printf("error\r\n");
-    		}
-    	}
+    while (1)
+    {
+        delay();
+        GPIO_PortToggle(BOARD_LED_GPIO, 1u << BOARD_LED_GPIO_PIN);
     }
-    return 0 ;
 }
